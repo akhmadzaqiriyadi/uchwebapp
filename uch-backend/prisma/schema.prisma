@@ -1,0 +1,62 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Model untuk Pengguna (User)
+// Menyimpan data user, termasuk password yang dienkripsi dan perannya (ADMIN/USER)
+model User {
+  id       Int        @id @default(autoincrement())
+  name     String
+  npm      String     @unique
+  email    String     @unique
+  prodi    String
+  password String
+  role     String     @default("USER") // Peran default adalah USER
+  bookings Booking[]
+  checkins Checkin[]
+}
+
+// Model untuk Pemesanan (Booking)
+// Mencatat setiap sesi booking ruangan oleh user
+model Booking {
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  room        String
+  purpose     String     @db.Text
+  audience    Int
+  bookingDate DateTime   @db.Date
+  startTime   DateTime   @db.DateTime
+  endTime     DateTime   @db.DateTime
+  status      String     @default("Pending") // Status: Pending, Approved, Rejected, Checked-in
+  qrCode      QRCode?
+  checkin     Checkin?
+}
+
+// Model untuk QR Code
+// Setiap booking yang disetujui akan memiliki satu QR Code unik
+model QRCode {
+  id        Int      @id @default(autoincrement())
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  bookingId Int      @unique
+  token     String   @unique
+  expiresAt DateTime
+}
+
+// Model untuk Check-in
+// Mencatat ketika pengguna berhasil memindai QR code
+model Checkin {
+  id          Int      @id @default(autoincrement())
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  bookingId   Int      @unique
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  checkinTime DateTime @default(now())
+}
