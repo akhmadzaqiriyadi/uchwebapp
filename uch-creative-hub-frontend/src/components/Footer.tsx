@@ -99,13 +99,13 @@ const Footer = () => {
                 height={50}
               />
               <div className="ml-2 text-blue-950 font-bold text-xs">
-                <div>UUU</div>
+                <div>UTY</div>
                 <div>CREATIVE</div>
                 <div>HUB</div>
               </div>
             </div>
             <p className="text-gray-700 mb-4">
-              Pusat kreativitas dan inovasi resmi Universitas Gadjah Mungkur. 
+              Pusat kreativitas dan inovasi resmi Universitas Teknologi Yogyakarta. 
               Wadah bagi mahasiswa dan komunitas untuk mengembangkan ide-ide brilian 
               di bidang kreativitas, inovasi, dan teknologi.
             </p>
@@ -195,7 +195,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <Mail size={20} className="text-[#2E417A] mr-3 flex-shrink-0" />
-                <p className="text-gray-700">creativehub@uuu.ac.id</p>
+                <p className="text-gray-700">kreanovasi@uty.ac.id</p>
               </div>
             </div>
           </motion.div>
@@ -219,7 +219,7 @@ const Footer = () => {
           transition={{ duration: 0.5 }}
         >
           <p className="text-gray-600 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} UUU Creative Hub. All rights reserved.
+            © {new Date().getFullYear()} UTY Creative Hub. All rights reserved.
           </p>
           <div className="flex space-x-4 text-sm text-gray-600">
             <Link href="/privacy-policy" className="hover:text-[#2E417A]">Privacy Policy</Link>

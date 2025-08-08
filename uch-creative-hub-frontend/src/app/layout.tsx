@@ -9,8 +9,7 @@ import { QueryProvider } from "@/providers/query-provider"; // <-- Impor provide
 
 // Komponen dari library
 import { Toaster } from "sonner";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import ConditionalLayout from "@/components/ConditionalLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +29,10 @@ export default function RootLayout({
         {/* Gunakan QueryProvider baru kita */}
         <QueryProvider>
           <AuthProvider>
-            <Navbar />
-            <main>
+            <ConditionalLayout>
               {children}
-            </main>
+            </ConditionalLayout>
             <Toaster richColors position="top-right" />
-            <Footer />
           </AuthProvider>
         </QueryProvider>
       </body>

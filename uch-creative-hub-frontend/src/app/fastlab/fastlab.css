@@ -1,0 +1,53 @@
+/* FastLab Specific Styles - Scoped to prevent affecting parent UCH styles */
+
+.fastlab-container {
+  min-height: 100vh;
+  position: relative;
+  font-family: 'GeistMono', monospace;
+  scroll-behavior: smooth;
+}
+
+/* Apply GeistSans font family when available */
+.fastlab-container.font-geist-sans {
+  font-family: var(--font-sans), 'GeistSans', sans-serif;
+}
+
+/* FastLab specific background and blueprint grid */
+.fastlab-container .bg-blueprint {
+  background: linear-gradient(135deg, #0A2342 0%, #1B4F72 50%, #2E86AB 100%);
+}
+
+.fastlab-container .blueprint-grid {
+  background-image: 
+    linear-gradient(rgba(135, 206, 235, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(135, 206, 235, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Scoped scrollbar styles for FastLab only */
+.fastlab-container ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fastlab-container ::-webkit-scrollbar-track {
+  background: #0A2342;
+}
+
+.fastlab-container ::-webkit-scrollbar-thumb {
+  background: #87CEEB;
+  border-radius: 4px;
+}
+
+.fastlab-container ::-webkit-scrollbar-thumb:hover {
+  background: #FFA500;
+}
+
+/* Additional FastLab specific styles */
+.fastlab-container * {
+  scroll-behavior: smooth;
+}
+
+/* Override any parent styles that might interfere */
+.fastlab-container body {
+  font-family: 'GeistMono', monospace;
+}

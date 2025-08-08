@@ -1,17 +1,38 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar } from 'lucide-react';
+import { Calendar, ChevronDown, ExternalLink } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Function to check if path is active
+  const isActivePath = (path: string) => {
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
+  // Function to check if Program dropdown should be active
+  const isProgramActive = () => {
+    return pathname === '/fastlab' || pathname.startsWith('/programs');
   };
 
   useEffect(() => {
@@ -99,7 +120,7 @@ const Navbar = () => {
                 >
                   <Image
                     src="/images/uch.png"
-                    alt="UUU Creative Hub Logo"
+                    alt="UTY Creative Hub Logo"
                     width={50}
                     height={50}
                     priority
@@ -111,7 +132,7 @@ const Navbar = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
-                  <div className="">UUU</div>
+                  <div className="">UTY</div>
                   <div className="">CREATIVE</div>
                   <div className="">HUB</div>
                 </motion.div>
@@ -123,34 +144,131 @@ const Navbar = () => {
               {[
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About Us" },
-                { href: "/programs", label: "Program" },
                 { href: "/booking", label: "Booking" },
                 { href: "/articles", label: "News" },
                 { href: "/events", label: "Events" },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: i * 0.1,
-                    duration: 0.5,
-                    ease: [0.04, 0.62, 0.23, 0.98]
-                  }}
-                >
-                  <Link 
-                    href={item.href} 
-                    className="text-gray-700 hover:text-blue-600 text-sm md:text-base whitespace-nowrap"
+              ].map((item, i) => {
+                const isActive = isActivePath(item.href);
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: i * 0.1,
+                      duration: 0.5,
+                      ease: [0.04, 0.62, 0.23, 0.98]
+                    }}
                   >
-                    <motion.span
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
+                    <Link 
+                      href={item.href} 
+                      className={`relative text-sm md:text-base whitespace-nowrap transition-colors ${
+                        isActive 
+                          ? 'text-blue-600 font-semibold' 
+                          : 'text-gray-700 hover:text-blue-600'
+                      }`}
                     >
-                      {item.label}
-                    </motion.span>
-                  </Link>
-                </motion.div>
-              ))}
+                      <motion.span
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative"
+                      >
+                        {item.label}
+                        {/* Active indicator */}
+                        {isActive && (
+                          <motion.div
+                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                            layoutId="activeIndicator"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              
+              {/* Program Dropdown */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 2 * 0.1,
+                  duration: 0.5,
+                  ease: [0.04, 0.62, 0.23, 0.98]
+                }}
+              >
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className={`relative text-sm md:text-base whitespace-nowrap flex items-center gap-1 focus:outline-none transition-colors ${
+                      isProgramActive() 
+                        ? 'text-blue-600 font-semibold' 
+                        : 'text-gray-700 hover:text-blue-600'
+                    }`}>
+                      <motion.span
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative flex items-center gap-1"
+                      >
+                        Program
+                        <ChevronDown size={16} className="transition-transform duration-200" />
+                        {/* Active indicator for Program dropdown */}
+                        {isProgramActive() && (
+                          <motion.div
+                            className="absolute -bottom-1 left-0 right-6 h-0.5 bg-blue-600 rounded-full"
+                            layoutId="activeIndicatorProgram"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
+                      </motion.span>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-64">
+                    <DropdownMenuItem asChild>
+                      <Link 
+                        href="https://bit.ly/PKMCornerUTY" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between w-full cursor-pointer"
+                      >
+                        <span>Pendampingan Kreativitas Mahasiswa</span>
+                        <ExternalLink size={14} className="text-gray-400" />
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link 
+                        href="https://sentra-hki.uty.ac.id/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between w-full cursor-pointer"
+                      >
+                        <span>Sentra Kekayaan Intelektual</span>
+                        <ExternalLink size={14} className="text-gray-400" />
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem disabled>
+                      <span className="text-gray-400">Hilirisasi Riset</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link 
+                        href="/fastlab" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center justify-between w-full cursor-pointer ${
+                          pathname === '/fastlab' ? 'bg-blue-50 text-blue-600' : ''
+                        }`}
+                      >
+                        <span>UTY Fastlab Academy</span>
+                        <ExternalLink size={14} className="text-gray-400" />
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </motion.div>
             </div>
 
             {/* Grup Tombol Aksi dengan animasi - tampil mulai dari md ke atas */}
@@ -248,25 +366,81 @@ const Navbar = () => {
                 {[
                   { href: "/", label: "Home" },
                   { href: "/about", label: "About Us" },
-                  { href: "/programs", label: "Program" },
                   { href: "/booking", label: "Booking" },
                   { href: "/articles", label: "News" },
                   { href: "/events", label: "Events" }
-                ].map((item, i) => (
-                  <motion.div
-                    key={item.href}
-                    variants={menuItemVariants}
-                    custom={i}
-                  >
-                    <Link 
-                      href={item.href} 
-                      className="block px-4 py-2 text-gray-700 hover:bg-blue-100 rounded-lg"
-                      onClick={() => setIsMenuOpen(false)}
+                ].map((item, i) => {
+                  const isActive = isActivePath(item.href);
+                  return (
+                    <motion.div
+                      key={item.href}
+                      variants={menuItemVariants}
+                      custom={i}
                     >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link 
+                        href={item.href} 
+                        className={`block px-4 py-2 rounded-lg transition-colors ${
+                          isActive 
+                            ? 'bg-blue-100 text-blue-600 font-semibold border-l-4 border-blue-600' 
+                            : 'text-gray-700 hover:bg-blue-100'
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+                
+                {/* Program Dropdown untuk Mobile */}
+                <motion.div variants={menuItemVariants}>
+                  <div className={`px-4 py-2 ${
+                    isProgramActive() ? 'bg-blue-50 rounded-lg border-l-4 border-blue-600' : ''
+                  }`}>
+                    <div className={`font-medium mb-2 ${
+                      isProgramActive() ? 'text-blue-600' : 'text-gray-700'
+                    }`}>Program</div>
+                    <div className="ml-4 space-y-2">
+                      <Link 
+                        href="https://bit.ly/PKMCornerUTY" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between text-sm text-gray-600 hover:text-blue-600 py-1"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <span>Pendampingan Kreativitas Mahasiswa</span>
+                        <ExternalLink size={12} className="text-gray-400" />
+                      </Link>
+                      <Link 
+                        href="https://sentra-hki.uty.ac.id/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between text-sm text-gray-600 hover:text-blue-600 py-1"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <span>Sentra Kekayaan Intelektual</span>
+                        <ExternalLink size={12} className="text-gray-400" />
+                      </Link>
+                      <div className="text-sm text-gray-400 py-1">
+                        Hilirisasi Riset
+                      </div>
+                      <Link 
+                        href="/fastlab" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center justify-between text-sm py-1 ${
+                          pathname === '/fastlab' 
+                            ? 'text-blue-600 font-medium bg-blue-100 px-2 py-1 rounded' 
+                            : 'text-gray-600 hover:text-blue-600'
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <span>UTY Fastlab Academy</span>
+                        <ExternalLink size={12} className="text-gray-400" />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
                 {/* Grup Tombol Aksi untuk Mobile */}
                 <motion.div variants={menuItemVariants} className="!mt-6 pt-4 border-t border-gray-100">
                   <div className="flex items-center gap-3">
