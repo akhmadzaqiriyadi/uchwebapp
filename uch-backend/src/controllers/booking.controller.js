@@ -8,6 +8,12 @@ exports.createBooking = async (req, res) => {
   const { room, purpose, audience, date, startTime, endTime } = req.body;
 
   try {
+    // Konversi waktu dari WIB ke UTC dengan benar
+    // Input: startTime="16:00", endTime="19:00" (WIB)
+    // Output: Simpan sebagai UTC dengan offset -7 jam
+    const startDateTime = new Date(`${date}T${startTime}:00+07:00`);
+    const endDateTime = new Date(`${date}T${endTime}:00+07:00`);
+
     const booking = await prisma.booking.create({
       data: {
         userId, // Langsung gunakan ID dari user yang login
@@ -15,8 +21,8 @@ exports.createBooking = async (req, res) => {
         purpose,
         audience: parseInt(audience),
         bookingDate: new Date(date),
-        startTime: new Date(`${date}T${startTime}:00.000Z`),
-        endTime: new Date(`${date}T${endTime}:00.000Z`),
+        startTime: startDateTime,
+        endTime: endDateTime,
         status: "Pending",
       },
       include: {

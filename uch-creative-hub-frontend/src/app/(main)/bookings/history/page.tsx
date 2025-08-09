@@ -17,6 +17,16 @@ export default function BookingHistoryPage() {
     queryFn: getMyBookingHistory,
   });
 
+  const formatAsLocalTime = (dateString: string) => {
+    // 1. Buat objek Date dari string ISO
+    const date = new Date(dateString);
+    // 2. Ambil komponen waktu UTC
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    // 3. Gabungkan menjadi format HH:mm
+    return `${hours}:${minutes}`;
+  };
+
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status) {
       case "Approved":
@@ -156,7 +166,7 @@ export default function BookingHistoryPage() {
                         <div className="flex-1 min-w-0">
                           <span className="text-xs font-medium text-slate-500 uppercase tracking-wide block mb-1">Waktu</span>
                           <span className="text-sm lg:text-base font-semibold text-slate-800 truncate block">
-                            {format(new Date(booking.startTime), "HH:mm")} - {format(new Date(booking.endTime), "HH:mm")} WIB
+                            {formatAsLocalTime(booking.startTime)} - {formatAsLocalTime(booking.endTime)} WIB
                           </span>
                         </div>
                       </div>
