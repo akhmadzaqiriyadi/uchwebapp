@@ -35,6 +35,12 @@ async function main() {
       where: { userId: { in: adminUserIds } }
     });
 
+    // Hapus artikel yang dibuat oleh admin
+    console.log('Menghapus artikel terkait admin...');
+    await prisma.article.deleteMany({
+      where: { authorId: { in: adminUserIds } }
+    });
+
     // Sekarang baru hapus data admin
     await prisma.user.deleteMany({
       where: { role: 'ADMIN' },
@@ -58,8 +64,88 @@ async function main() {
   });
   console.log(`Admin berhasil dibuat: ${admin.name} (ID: ${admin.id})`);
 
+  // Buat data author untuk testing
+  const hashedAuthorPassword = await bcrypt.hash('author123', 10);
+  const author = await prisma.user.create({
+    data: {
+      name: 'Author UCH',
+      npm: 'AUTHOR001',
+      email: 'author@uty.ac.id',
+      prodi: 'Sistem Informasi',
+      password: hashedAuthorPassword,
+      role: 'AUTHOR',
+    },
+  });
+  console.log(`Author berhasil dibuat: ${author.name} (ID: ${author.id})`);
+
+  // Author user
+  const authorUser = await prisma.user.create({
+    data: {
+      name: "Ayas",
+      npm: "AUTHOR001",
+      email: "ayas@uty.ac.id", 
+      prodi: "Ilmu Komunikasi",
+      password: await bcrypt.hash("ayas123@keren", 10), // ganti password sesuai kebutuhan
+      role: "AUTHOR"
+    }
+  });
+
+  console.log("✅ Author user created:", {
+    name: authorUser.name,
+    email: authorUser.email,
+    role: authorUser.role
+  });
+
+  // Buat categories default
+  console.log('Membuat categories default...');
+  const categories = [
+    { name: 'Teknologi' },
+    { name: 'Kreatif' },
+    { name: 'Bisnis' },
+    { name: 'Edukasi' },
+    { name: 'Event' }
+  ];
+
+  for (const categoryData of categories) {
+    const existingCategory = await prisma.category.findUnique({
+      where: { name: categoryData.name }
+    });
+    
+    if (!existingCategory) {
+      await prisma.category.create({ data: categoryData });
+      console.log(`Category dibuat: ${categoryData.name}`);
+    } else {
+      console.log(`Category sudah ada: ${categoryData.name}`);
+    }
+  }
+
+  // Buat tags default
+  console.log('Membuat tags default...');
+  const tags = [
+    'teknologi', 'inovasi', 'startup', 'digital', 'ai', 'web development',
+    'design', 'art', 'kreatif', 'fotografi', 'video', 'musik',
+    'bisnis', 'marketing', 'branding', 'entrepreneurship',
+    'edukasi', 'tutorial', 'tips', 'learning',
+    'event', 'workshop', 'seminar', 'kompetisi'
+  ];
+
+  for (const tagName of tags) {
+    const existingTag = await prisma.tag.findUnique({
+      where: { name: tagName }
+    });
+    
+    if (!existingTag) {
+      await prisma.tag.create({ data: { name: tagName } });
+      console.log(`Tag dibuat: ${tagName}`);
+    } else {
+      console.log(`Tag sudah ada: ${tagName}`);
+    }
+  }
+
   console.log('Seeding selesai.');
 }
+
+
 
 main()
   .catch((e) => {

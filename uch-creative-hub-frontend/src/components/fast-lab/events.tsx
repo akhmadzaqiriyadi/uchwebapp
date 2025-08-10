@@ -11,7 +11,7 @@ const events = [
     date: '15 Januari 2024',
     location: 'FastLab UTY',
     participants: '25 peserta',
-    image: '/placeholder.svg?height=200&width=300&text=3D+Printing+Workshop',
+    image: '/images/satu.avif',
     status: 'Selesai'
   },
   {
@@ -19,7 +19,7 @@ const events = [
     date: '22 Januari 2024',
     location: 'FastLab UTY',
     participants: '20 peserta',
-    image: '/placeholder.svg?height=200&width=300&text=Laser+Cutting+Training',
+    image: '/images/dua.avif',
     status: 'Selesai'
   },
   {
@@ -27,7 +27,7 @@ const events = [
     date: '5 Februari 2024',
     location: 'Mini Theater Room',
     participants: '50 peserta',
-    image: '/placeholder.svg?height=200&width=300&text=IoT+Seminar',
+    image: '/images/tiga.avif',
     status: 'Mendatang'
   },
   {
@@ -35,7 +35,7 @@ const events = [
     date: '12 Februari 2024',
     location: 'FastLab UTY',
     participants: '30 peserta',
-    image: '/placeholder.svg?height=200&width=300&text=AI+Bootcamp',
+    image: '/images/empat.avif',
     status: 'Mendatang'
   }
 ]

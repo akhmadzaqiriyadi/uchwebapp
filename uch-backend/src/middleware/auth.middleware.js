@@ -35,3 +35,14 @@ exports.isAdmin = (req, res, next) => {
     res.status(403).json({ success: false, message: 'Akses ditolak. Rute ini hanya untuk Admin.' });
   }
 };
+
+// --- TAMBAHKAN KODE DI BAWAH INI ---
+// Middleware BARU untuk memeriksa peran admin atau penulis
+exports.isAuthorOrAdmin = (req, res, next) => {
+    // Middleware ini harus dijalankan setelah 'protect'
+    if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'AUTHOR')) {
+        next();
+    } else {
+        res.status(403).json({ success: false, message: 'Akses ditolak. Rute ini hanya untuk Admin atau Penulis.' });
+    }
+};

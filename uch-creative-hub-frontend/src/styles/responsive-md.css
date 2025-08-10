@@ -1,0 +1,131 @@
+/* Responsive improvements for md-lg breakpoint */
+
+/* Custom breakpoint utilities for better spacing in md-lg range */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Reduce font sizes in md range */
+  .responsive-text-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+  }
+  
+  .responsive-text-lg-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+  
+  .responsive-heading-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+  }
+  
+  /* Reduce padding and margins */
+  .responsive-p-md {
+    padding: 1rem; /* 16px */
+  }
+  
+  .responsive-px-md {
+    padding-left: 0.75rem; /* 12px */
+    padding-right: 0.75rem; /* 12px */
+  }
+  
+  .responsive-py-md {
+    padding-top: 0.75rem; /* 12px */
+    padding-bottom: 0.75rem; /* 12px */
+  }
+  
+  /* Reduce gaps and spacing */
+  .responsive-gap-md {
+    gap: 1rem; /* 16px */
+  }
+  
+  .responsive-space-x-md > * + * {
+    margin-left: 0.5rem; /* 8px */
+  }
+  
+  /* Button sizes for md range */
+  .responsive-btn-md {
+    padding: 0.5rem 0.875rem; /* 8px 14px */
+    font-size: 0.875rem; /* 14px */
+  }
+  
+  /* Navbar specific adjustments */
+  .navbar-container {
+    padding-left: 1rem; /* 16px */
+    padding-right: 1rem; /* 16px */
+  }
+  
+  /* Card component adjustments */
+  .card-md {
+    padding: 1rem; /* 16px */
+  }
+  
+  .card-md .card-title {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+  
+  .card-md .card-description {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+  }
+  
+  /* Grid adjustments */
+  .grid-responsive-md {
+    gap: 1rem; /* 16px */
+  }
+  
+  /* Icon sizes for md range */
+  .icon-md {
+    width: 1rem; /* 16px */
+    height: 1rem; /* 16px */
+  }
+  
+  .icon-lg-md {
+    width: 1.25rem; /* 20px */
+    height: 1.25rem; /* 20px */
+  }
+}
+
+/* Additional utilities for preventing content overlap */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Ensure proper spacing for navbar items */
+  .navbar-responsive {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Adjust dropdown menu positioning */
+  .dropdown-responsive {
+    margin-top: 0.25rem;
+  }
+  
+  /* Better button spacing */
+  .btn-group-responsive {
+    gap: 0.5rem;
+  }
+  
+  /* Improved card grid for tablets */
+  .card-grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  /* Footer adjustments */
+  .footer-responsive {
+    padding: 2rem 1rem;
+  }
+  
+  .footer-responsive .footer-section {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Height adjustments for better visual balance */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .h-responsive-md {
+    height: 2rem; /* 32px */
+  }
+  
+  .min-h-responsive-md {
+    min-height: 2.5rem; /* 40px */
+  }
+}

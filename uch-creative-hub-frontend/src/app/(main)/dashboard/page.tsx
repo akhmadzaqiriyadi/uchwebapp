@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 // 1. Impor ikon baru
-import { LogOut, PlusCircle, History, UserCog, QrCode, ArrowRight, User, Mail, BookOpen, GraduationCap, Shield } from "lucide-react";
+import { LogOut, PlusCircle, History, UserCog, QrCode, ArrowRight, User, Mail, BookOpen, GraduationCap, Shield, FileText, Edit3 } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();
@@ -41,7 +41,7 @@ export default function DashboardPage() {
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 lg:mb-8 text-center">Aksi Cepat</h2>
           
           {/* Mobile: Stack vertically, Desktop: Horizontal */}
-          <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6">
+          <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-4 lg:gap-6">
             {/* Buat Booking */}
             <Link href="/bookings" className="group block">
               <div className="flex items-center lg:block lg:text-center bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 lg:hover:-translate-y-2 p-4 lg:p-8 rounded-xl lg:rounded-2xl">
@@ -77,6 +77,44 @@ export default function DashboardPage() {
                 <ArrowRight className="w-5 h-5 lg:hidden text-green-600 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
               </div>
             </Link>
+
+            {/* Baca Artikel - untuk semua user */}
+            <Link href="/articles" className="group block">
+              <div className="flex items-center lg:block lg:text-center bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 lg:hover:-translate-y-2 p-4 lg:p-8 rounded-xl lg:rounded-2xl">
+                <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg lg:rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center lg:mx-auto mb-0 lg:mb-6 shadow-lg group-hover:scale-105 lg:group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                  <BookOpen className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+                </div>
+                <div className="ml-4 lg:ml-0 flex-1">
+                  <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-1 lg:mb-3">Baca Artikel</h3>
+                  <p className="text-sm lg:text-base text-gray-600 mb-0 lg:mb-6">Jelajahi artikel dan informasi terbaru</p>
+                  <div className="hidden lg:flex items-center justify-center text-teal-600 font-semibold group-hover:text-teal-700 transition-colors">
+                    Lihat Artikel
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+                <ArrowRight className="w-5 h-5 lg:hidden text-teal-600 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
+              </div>
+            </Link>
+
+            {/* Manajemen Artikel */}
+            {user?.role === "ADMIN" && (
+              <Link href="/admin/articles" className="group block">
+                <div className="flex items-center lg:block lg:text-center bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 lg:hover:-translate-y-2 p-4 lg:p-8 rounded-xl lg:rounded-2xl">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg lg:rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 flex items-center justify-center lg:mx-auto mb-0 lg:mb-6 shadow-lg group-hover:scale-105 lg:group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                    <FileText className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+                  </div>
+                  <div className="ml-4 lg:ml-0 flex-1">
+                    <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-1 lg:mb-3">Kelola Artikel</h3>
+                    <p className="text-sm lg:text-base text-gray-600 mb-0 lg:mb-6">Manajemen artikel dan konten website</p>
+                    <div className="hidden lg:flex items-center justify-center text-orange-600 font-semibold group-hover:text-orange-700 transition-colors">
+                      Kelola Artikel
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 lg:hidden text-orange-600 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
+                </div>
+              </Link>
+            )}
 
             {/* Check-in */}
             <Link href="/check-in" className="group block">
@@ -199,15 +237,25 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent className="p-4 lg:p-6">
                 <p className="text-xs lg:text-sm text-gray-600 mb-4 lg:mb-6">
-                  Akses halaman manajemen untuk mengelola data booking dan pengguna sistem.
+                  Akses halaman manajemen untuk mengelola data booking, artikel, dan pengguna sistem.
                 </p>
-                <Link href="/admin/bookings">
-                  <Button className="w-full h-10 lg:h-12 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-lg lg:rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-sm lg:text-base">
-                    <UserCog className="mr-2 h-4 w-4 lg:h-5 lg:w-5" />
-                    Buka Panel Admin
-                    <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Button>
-                </Link>
+                <div className="space-y-3 lg:space-y-4">
+                  <Link href="/admin/bookings">
+                    <Button className="w-full h-10 lg:h-12 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-lg lg:rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-sm lg:text-base mb-4">
+                      <UserCog className="mr-2 h-4 w-4 lg:h-5 lg:w-5" />
+                      Panel Admin
+                      <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Button>
+                  </Link>
+                  
+                  <Link href="/admin/articles">
+                    <Button className="w-full h-10 lg:h-12 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-lg lg:rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-sm lg:text-base">
+                      <Edit3 className="mr-2 h-4 w-4 lg:h-5 lg:w-5" />
+                      Kelola Artikel
+                      <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           )}

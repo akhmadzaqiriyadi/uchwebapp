@@ -8,6 +8,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 10000, // 10 second timeout
 });
 
 /**
@@ -20,8 +21,8 @@ api.interceptors.request.use(
     // Cek apakah kode berjalan di sisi client (browser)
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("uch-token");
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
     return config;
@@ -31,4 +32,14 @@ api.interceptors.request.use(
   }
 );
 
+// API instance untuk request public (tanpa authentication)
+const publicApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000, // 10 second timeout
+});
+
 export default api;
+export { publicApi };

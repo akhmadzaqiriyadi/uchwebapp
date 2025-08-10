@@ -9,18 +9,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Model untuk Pengguna (User)
-// Menyimpan data user, termasuk password yang dienkripsi dan perannya (ADMIN/USER)
+// Definisikan Enum untuk peran agar lebih aman
+enum Role {
+  USER
+  ADMIN
+  AUTHOR
+}
+
+// Modifikasi Model User untuk menggunakan Enum Role
 model User {
-  id       Int        @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  npm      String     @unique
-  email    String     @unique
+  npm      String    @unique
+  email    String    @unique
   prodi    String
   password String
-  role     String     @default("USER") // Peran default adalah USER
+  role     Role      @default(USER) // Menggunakan Enum Role
   bookings Booking[]
   checkins Checkin[]
+  articles Article[] // User bisa menulis banyak artikel
+}
+
+// Model untuk Kategori Artikel
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  articles Article[]
+}
+
+// Model untuk Tag Artikel
+model Tag {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  articles Article[]
+}
+
+// Model untuk Artikel
+model Article {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique // Untuk URL yang ramah SEO, cth: /artikel/judul-artikel-ini
+  content     String   @db.Text
+  imageUrl    String?  // URL ke gambar, bisa null
+  published   Boolean  @default(true)
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  categories  Category[]
+  tags        Tag[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // Model untuk Pemesanan (Booking)

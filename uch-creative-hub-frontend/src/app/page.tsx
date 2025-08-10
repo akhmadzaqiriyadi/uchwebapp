@@ -4,29 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ArrowRight,
-  Calendar,
   Users,
   Lightbulb,
   Target,
   BookOpen,
-  Newspaper,
-  Star,
-  Play,
-  CheckCircle,
-  MapPin,
-  Clock,
-  Award,
+  Calendar,
+  User,
 } from "lucide-react";
+import ArticleList from "@/components/articles/ArticleList";
 
 export default function Home() {
   const containerVariants = {
@@ -218,6 +207,36 @@ export default function Home() {
                 priority
               />
             </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* ====================================================================== */}
+      {/* Latest Articles Section                                             */}
+      {/* ====================================================================== */}
+      <motion.section
+        variants={containerVariants}
+        className="py-20 lg:py-24"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div variants={itemVariants} className="text-center mb-16">
+            <Badge className="mb-6 bg-gradient-to-r from-[#2E417A] to-blue-700 text-white border-0 px-4 py-2 text-sm font-semibold">
+              📚 Artikel Terbaru
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 mb-6 leading-tight">
+              Wawasan &{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2E417A] to-blue-700">
+                Inspirasi
+              </span>
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto">
+              Temukan artikel-artikel inspiratif, panduan praktis, dan insight terkini 
+              dari komunitas kreatif UTY Creative Hub.
+            </p>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <ArticleList limit={6} />
           </motion.div>
         </div>
       </motion.section>

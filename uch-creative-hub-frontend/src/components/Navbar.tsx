@@ -140,12 +140,12 @@ const Navbar = () => {
             </motion.div>
 
             {/* Desktop Navigation with staggered animations - tampil mulai dari md ke atas */}
-            <div className="hidden md:flex items-center space-x-2 md:space-x-3 lg:space-x-6 xl:space-x-8">
+            <div className="hidden md:flex items-center space-x-1 md:space-x-2 lg:space-x-4 xl:space-x-6">
               {[
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About Us" },
                 { href: "/booking", label: "Booking" },
-                { href: "/articles", label: "News" },
+                { href: "/articles", label: "Artikel" },
                 { href: "/events", label: "Events" },
               ].map((item, i) => {
                 const isActive = isActivePath(item.href);
@@ -162,7 +162,7 @@ const Navbar = () => {
                   >
                     <Link 
                       href={item.href} 
-                      className={`relative text-sm md:text-base whitespace-nowrap transition-colors ${
+                      className={`relative text-xs md:text-sm lg:text-base whitespace-nowrap transition-colors ${
                         isActive 
                           ? 'text-blue-600 font-semibold' 
                           : 'text-gray-700 hover:text-blue-600'
@@ -202,7 +202,7 @@ const Navbar = () => {
               >
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className={`relative text-sm md:text-base whitespace-nowrap flex items-center gap-1 focus:outline-none transition-colors ${
+                    <button className={`relative text-xs md:text-sm lg:text-base whitespace-nowrap flex items-center gap-1 focus:outline-none transition-colors ${
                       isProgramActive() 
                         ? 'text-blue-600 font-semibold' 
                         : 'text-gray-700 hover:text-blue-600'
@@ -273,7 +273,7 @@ const Navbar = () => {
 
             {/* Grup Tombol Aksi dengan animasi - tampil mulai dari md ke atas */}
             <motion.div 
-              className="hidden md:flex items-center gap-1 md:gap-2"
+              className="hidden md:flex items-center gap-1 lg:gap-2"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
@@ -281,8 +281,8 @@ const Navbar = () => {
               {/* Tombol Cek Jadwal (Sekunder) */}
               <Link 
                 href="/schedule" 
-                className={`text-[#2E417A] bg-white border border-[#2E417A] px-2 md:px-3 lg:px-4 rounded-xl hover:bg-blue-50 transition-colors flex items-center text-sm whitespace-nowrap ${
-                  scrolled ? 'py-2' : 'py-2.5'
+                className={`text-[#2E417A] bg-white border border-[#2E417A] px-2 lg:px-3 xl:px-4 rounded-xl hover:bg-blue-50 transition-colors flex items-center text-xs md:text-sm whitespace-nowrap ${
+                  scrolled ? 'py-1.5 md:py-2' : 'py-2 md:py-2.5'
                 }`}
               >
                 <motion.div
@@ -297,8 +297,8 @@ const Navbar = () => {
               {/* Tombol Book Now (Primer) */}
               <Link 
                 href="/login"
-                className={`bg-[#2E417A] text-white px-2 md:px-3 lg:px-4 rounded-xl hover:bg-blue-950 transition-colors flex items-center text-sm whitespace-nowrap ${
-                  scrolled ? 'py-2.5' : 'py-3'
+                className={`bg-[#2E417A] text-white px-2 lg:px-3 xl:px-4 rounded-xl hover:bg-blue-950 transition-colors flex items-center text-xs md:text-sm whitespace-nowrap ${
+                  scrolled ? 'py-2 md:py-2.5' : 'py-2.5 md:py-3'
                 }`}
               >
                 <motion.div
@@ -306,7 +306,7 @@ const Navbar = () => {
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center"
                 >
-                  <Calendar size={16} className="mr-1 md:mr-2" />
+                  <Calendar size={14} className="mr-1 lg:mr-2" />
                   Book Now
                 </motion.div>
               </Link>
@@ -367,7 +367,7 @@ const Navbar = () => {
                   { href: "/", label: "Home" },
                   { href: "/about", label: "About Us" },
                   { href: "/booking", label: "Booking" },
-                  { href: "/articles", label: "News" },
+                  { href: "/articles", label: "Artikel" },
                   { href: "/events", label: "Events" }
                 ].map((item, i) => {
                   const isActive = isActivePath(item.href);

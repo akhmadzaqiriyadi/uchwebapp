@@ -5,6 +5,9 @@
   position: relative;
   font-family: 'GeistMono', monospace;
   scroll-behavior: smooth;
+  /* Override accent color for FastLab to yellow */
+  --accent: #FFA500;
+  --accent-foreground: #0A2342;
 }
 
 /* Apply GeistSans font family when available */
@@ -15,6 +18,136 @@
 /* FastLab specific background and blueprint grid */
 .fastlab-container .bg-blueprint {
   background: linear-gradient(135deg, #0A2342 0%, #1B4F72 50%, #2E86AB 100%);
+}
+
+/* FastLab specific color overrides */
+.fastlab-container .text-accent {
+  color: #FFA500 !important;
+}
+
+.fastlab-container .bg-accent {
+  background-color: #FFA500 !important;
+}
+
+.fastlab-container .border-accent {
+  border-color: #FFA500 !important;
+}
+
+.fastlab-container .hover\:bg-accent\/80:hover {
+  background-color: rgba(255, 165, 0, 0.8) !important;
+}
+
+.fastlab-container .hover\:bg-accent\/30:hover {
+  background-color: rgba(255, 165, 0, 0.3) !important;
+}
+
+.fastlab-container .bg-accent\/20 {
+  background-color: rgba(255, 165, 0, 0.2) !important;
+}
+
+.fastlab-container .hover\:text-accent:hover {
+  color: #FFA500 !important;
+}
+
+.fastlab-container .hover\:border-accent\/50:hover {
+  border-color: rgba(255, 165, 0, 0.5) !important;
+}
+
+.fastlab-container .group-hover\:w-full {
+  transition: width 0.3s ease;
+}
+
+.fastlab-container .group:hover .group-hover\:w-full {
+  width: 100% !important;
+}
+
+/* Additional mobile navigation fixes */
+.fastlab-container .lg\:hidden {
+  display: block !important;
+}
+
+@media (min-width: 1024px) {
+  .fastlab-container .lg\:hidden {
+    display: none !important;
+  }
+  
+  .fastlab-container .lg\:flex {
+    display: flex !important;
+  }
+  
+  .fastlab-container .lg\:block {
+    display: block !important;
+  }
+}
+
+/* Ensure proper z-index for mobile menu */
+.fastlab-container nav {
+  z-index: 50;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Additional mobile menu styling */
+.fastlab-container .bg-accent\/5 {
+  background-color: rgba(255, 165, 0, 0.05) !important;
+}
+
+.fastlab-container .border-accent\/30 {
+  border-color: rgba(255, 165, 0, 0.3) !important;
+}
+
+/* Fix for mobile menu backdrop */
+.fastlab-container .bg-blueprint\/98 {
+  background-color: rgba(10, 35, 66, 0.98) !important;
+}
+
+.fastlab-container .backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+/* Ensure mobile responsiveness */
+@media (max-width: 1023px) {
+  .fastlab-container .hidden.lg\:flex,
+  .fastlab-container .hidden.lg\:block {
+    display: none !important;
+  }
+  
+  /* Ensure mobile menu is always visible when open */
+  .fastlab-container .lg\:hidden {
+    display: block !important;
+  }
+}
+
+/* Mobile menu specific fixes */
+.fastlab-container nav {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+.fastlab-container .lg\:hidden.bg-blueprint\/98 {
+  position: relative;
+  z-index: 9998;
+  min-height: auto;
+}
+
+/* Touch targets for mobile */
+@media (max-width: 1023px) {
+  .fastlab-container button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .fastlab-container .p-3 {
+    padding: 16px !important;
+  }
+}
+
+/* Fix text color overrides */
+.fastlab-container .text-blueprint {
+  color: #0A2342 !important;
 }
 
 .fastlab-container .blueprint-grid {

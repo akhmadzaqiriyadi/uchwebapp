@@ -97,7 +97,7 @@ export default function BookingPage() {
           </motion.div>
           
           <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             variants={containerVariants}
           >
             {rooms.map((room, index) => (
@@ -157,13 +157,13 @@ export default function BookingPage() {
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
-                  <p className={`mb-6 leading-relaxed ${
+                <div className="p-4 md:p-6">
+                  <p className={`mb-4 md:mb-6 leading-relaxed text-sm md:text-base ${
                     room.available ? 'text-gray-600' : 'text-gray-400'
                   }`}>{room.description}</p>
 
                   {/* Room Details */}
-                  <div className="space-y-4 mb-6">
+                  <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
                     <div className={`flex items-center ${
                       room.available ? 'text-gray-700' : 'text-gray-400'
                     }`}>
@@ -211,13 +211,13 @@ export default function BookingPage() {
                   {room.available ? (
                     <Link
                       href="/login"
-                      className="group/btn w-full flex items-center justify-center py-4 bg-gradient-to-r from-[#2E417A] to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                      className="group/btn w-full flex items-center justify-center py-3 md:py-4 bg-gradient-to-r from-[#2E417A] to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl text-sm md:text-base"
                     >
                       Pesan Ruangan
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                      <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     </Link>
                   ) : (
-                    <div className="w-full flex items-center justify-center py-4 bg-gray-300 text-gray-500 rounded-xl font-semibold cursor-not-allowed">
+                    <div className="w-full flex items-center justify-center py-3 md:py-4 bg-gray-300 text-gray-500 rounded-xl font-semibold cursor-not-allowed text-sm md:text-base">
                       Sedang Dalam Perbaikan
                     </div>
                   )}
@@ -229,16 +229,16 @@ export default function BookingPage() {
 
         {/* Operational Hours & Information */}
         <motion.div 
-          className="grid lg:grid-cols-2 gap-8 mb-12"
+          className="grid md:grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12"
           variants={containerVariants}
         >
           {/* Operational Hours */}
-          <motion.div className="bg-white rounded-2xl p-8 shadow-lg" variants={itemVariants}>
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-4">
-                <Clock className="w-6 h-6 text-[#2E417A]" />
+          <motion.div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg" variants={itemVariants}>
+            <div className="flex items-center mb-4 md:mb-6">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-3 md:mr-4">
+                <Clock className="w-5 h-5 md:w-6 md:h-6 text-[#2E417A]" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">Jam Operasional</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900">Jam Operasional</h3>
             </div>
             <div className="space-y-4">
               {operationalHours.map((schedule, index) => (
@@ -259,12 +259,12 @@ export default function BookingPage() {
           </motion.div>
 
           {/* Booking Information */}
-          <motion.div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-100" variants={itemVariants}>
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-4">
-                <Calendar className="w-6 h-6 text-[#2E417A]" />
+          <motion.div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 md:p-8 border border-blue-100" variants={itemVariants}>
+            <div className="flex items-center mb-4 md:mb-6">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-3 md:mr-4">
+                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-[#2E417A]" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">Informasi Pemesanan</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900">Informasi Pemesanan</h3>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
