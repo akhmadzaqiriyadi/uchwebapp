@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "UCH Creative Hub",
-  description: "Booking System for UTY Creative Hub",
+  description: " Innovate. Collaborate. Create.",
 };
 
 export default function RootLayout({

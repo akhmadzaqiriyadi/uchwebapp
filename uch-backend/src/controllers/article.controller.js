@@ -34,7 +34,7 @@ exports.createArticle = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Gambar utama (featured image) wajib diupload.' });
     }
 
-    const imageUrl = `/images/${req.file.filename}`;
+    const imageUrl = `/uploads/${req.file.filename}`;
 
     try {
         // Check if user exists first
@@ -211,7 +211,7 @@ exports.updateArticle = async (req, res) => {
                     fs.unlinkSync(oldPath);
                 }
             }
-            imageUrl = `/images/${req.file.filename}`;
+            imageUrl = `/uploads/${req.file.filename}`;
         }
         
         // Parse and validate tagNames

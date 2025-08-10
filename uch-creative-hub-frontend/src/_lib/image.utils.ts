@@ -18,18 +18,26 @@ export function getImageUrl(imageUrl: string | null | undefined): string | null 
     return imageUrl;
   }
   
-  // If it starts with /public, use it as is with the API base
-  if (imageUrl.startsWith('/public')) {
-    return `${API_BASE_URL}${imageUrl}`;
+  // Remove /public if present in the path to avoid double /public
+  const cleanPath = imageUrl.replace(/^\/public/, '');
+  
+  // For production, use /uploads/ path for artikel images
+  if (cleanPath.startsWith('/images/image-')) {
+    return `${API_BASE_URL}/uploads${cleanPath.replace('/images', '')}`;
   }
   
-  // If it starts with /images, add /public prefix
-  if (imageUrl.startsWith('/images')) {
-    return `${API_BASE_URL}/public${imageUrl}`;
+  // For static assets (hero.svg, etc), keep /images/ path
+  if (cleanPath.startsWith('/images/')) {
+    return cleanPath; // Will be handled by Next.js static files
   }
   
-  // Fallback: assume it needs /public/images prefix
-  return `${API_BASE_URL}/public/images/${imageUrl}`;
+  // If it starts with /uploads, use as is
+  if (cleanPath.startsWith('/uploads/')) {
+    return `${API_BASE_URL}${cleanPath}`;
+  }
+  
+  // Fallback: assume it's an uploaded file
+  return `${API_BASE_URL}/uploads/${cleanPath}`;
 }
 
 /**
