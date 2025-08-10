@@ -6,95 +6,109 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Memulai proses seeding...');
 
-  // Cari admin users yang akan dihapus
-  const adminUsers = await prisma.user.findMany({
-    where: { role: 'ADMIN' },
-    select: { id: true }
-  });
-
-  if (adminUsers.length > 0) {
-    const adminUserIds = adminUsers.map(user => user.id);
-    
-    // Hapus data terkait dalam urutan yang benar untuk menghindari foreign key constraint
-    console.log('Menghapus data checkin terkait admin...');
-    await prisma.checkin.deleteMany({
-      where: { userId: { in: adminUserIds } }
-    });
-
-    console.log('Menghapus data QR codes terkait booking admin...');
-    await prisma.qRCode.deleteMany({
-      where: {
-        booking: {
-          userId: { in: adminUserIds }
-        }
-      }
-    });
-
-    console.log('Menghapus data booking admin...');
-    await prisma.booking.deleteMany({
-      where: { userId: { in: adminUserIds } }
-    });
-
-    // Hapus artikel yang dibuat oleh admin
-    console.log('Menghapus artikel terkait admin...');
-    await prisma.article.deleteMany({
-      where: { authorId: { in: adminUserIds } }
-    });
-
-    // Sekarang baru hapus data admin
-    await prisma.user.deleteMany({
+  try {
+    // Cari admin users yang akan dihapus
+    const adminUsers = await prisma.user.findMany({
       where: { role: 'ADMIN' },
+      select: { id: true }
     });
-    console.log('Data admin lama berhasil dihapus.');
-  } else {
-    console.log('Tidak ada data admin lama yang perlu dihapus.');
+
+    if (adminUsers.length > 0) {
+      const adminUserIds = adminUsers.map(user => user.id);
+      
+      // Hapus data terkait dalam urutan yang benar untuk menghindari foreign key constraint
+      console.log('Menghapus data checkin terkait admin...');
+      await prisma.checkin.deleteMany({
+        where: { userId: { in: adminUserIds } }
+      });
+
+      console.log('Menghapus data QR codes terkait booking admin...');
+      const bookingsToDelete = await prisma.booking.findMany({
+        where: { userId: { in: adminUserIds } },
+        select: { id: true }
+      });
+      
+      if (bookingsToDelete.length > 0) {
+        const bookingIds = bookingsToDelete.map(b => b.id);
+        await prisma.qRCode.deleteMany({
+          where: { bookingId: { in: bookingIds } }
+        });
+      }
+
+      console.log('Menghapus data booking admin...');
+      await prisma.booking.deleteMany({
+        where: { userId: { in: adminUserIds } }
+      });
+
+      // Hapus artikel yang dibuat oleh admin
+      console.log('Menghapus artikel terkait admin...');
+      if (await prisma.article) {
+        await prisma.article.deleteMany({
+          where: { authorId: { in: adminUserIds } }
+        });
+      }
+
+      // Sekarang baru hapus data admin
+      await prisma.user.deleteMany({
+        where: { role: 'ADMIN' },
+      });
+      console.log('Data admin lama berhasil dihapus.');
+    } else {
+      console.log('Tidak ada data admin lama yang perlu dihapus.');
+    }
+  } catch (error) {
+    console.log('Error saat cleanup data lama:', error.message);
+    console.log('Melanjutkan dengan seeding data baru...');
   }
 
   // Buat data admin baru
-  const hashedPassword = await bcrypt.hash('admin123', 10); // Ganti dengan password yang kuat
-  const admin = await prisma.user.create({
-    data: {
-      name: 'Admin UCH',
-      npm: 'ADMIN001',
-      email: 'admin@uty.ac.id', // Ganti dengan email admin
-      prodi: 'Manajemen',
-      password: hashedPassword,
-      role: 'ADMIN',
-    },
-  });
-  console.log(`Admin berhasil dibuat: ${admin.name} (ID: ${admin.id})`);
+  console.log('Membuat admin user...');
+  const hashedPassword = await bcrypt.hash('admin123', 10);
+  
+  try {
+    const admin = await prisma.user.upsert({
+      where: { email: 'admin@uty.ac.id' },
+      update: {},
+      create: {
+        name: 'Admin UCH',
+        npm: 'ADMIN001',
+        email: 'admin@uty.ac.id',
+        prodi: 'Manajemen',
+        password: hashedPassword,
+        role: 'ADMIN',
+      },
+    });
+    console.log(`✅ Admin berhasil dibuat: ${admin.name} (${admin.email})`);
+  } catch (error) {
+    console.log('⚠️ Admin sudah ada atau error:', error.message);
+  }
 
-  // Buat data author untuk testing
-  const hashedAuthorPassword = await bcrypt.hash('author123', 10);
-  const author = await prisma.user.create({
-    data: {
-      name: 'Author UCH',
-      npm: 'AUTHOR001',
-      email: 'author@uty.ac.id',
-      prodi: 'Sistem Informasi',
-      password: hashedAuthorPassword,
-      role: 'AUTHOR',
-    },
-  });
-  console.log(`Author berhasil dibuat: ${author.name} (ID: ${author.id})`);
+  // Buat data author Ayas
+  console.log('Membuat author user...');
+  const hashedAuthorPassword = await bcrypt.hash('ayas123@keren', 10);
+  
+  try {
+    const authorUser = await prisma.user.upsert({
+      where: { email: 'ayas@uty.ac.id' },
+      update: {},
+      create: {
+        name: "Ayas",
+        npm: "AUTHOR002", // Changed to avoid duplicate
+        email: "ayas@uty.ac.id", 
+        prodi: "Ilmu Komunikasi",
+        password: hashedAuthorPassword,
+        role: "AUTHOR"
+      }
+    });
 
-  // Author user
-  const authorUser = await prisma.user.create({
-    data: {
-      name: "Ayas",
-      npm: "AUTHOR001",
-      email: "ayas@uty.ac.id", 
-      prodi: "Ilmu Komunikasi",
-      password: await bcrypt.hash("ayas123@keren", 10), // ganti password sesuai kebutuhan
-      role: "AUTHOR"
-    }
-  });
-
-  console.log("✅ Author user created:", {
-    name: authorUser.name,
-    email: authorUser.email,
-    role: authorUser.role
-  });
+    console.log("✅ Author user created:", {
+      name: authorUser.name,
+      email: authorUser.email,
+      role: authorUser.role
+    });
+  } catch (error) {
+    console.log('⚠️ Author sudah ada atau error:', error.message);
+  }
 
   // Buat categories default
   console.log('Membuat categories default...');
@@ -106,17 +120,17 @@ async function main() {
     { name: 'Event' }
   ];
 
-  for (const categoryData of categories) {
-    const existingCategory = await prisma.category.findUnique({
-      where: { name: categoryData.name }
-    });
-    
-    if (!existingCategory) {
-      await prisma.category.create({ data: categoryData });
-      console.log(`Category dibuat: ${categoryData.name}`);
-    } else {
-      console.log(`Category sudah ada: ${categoryData.name}`);
+  try {
+    for (const categoryData of categories) {
+      await prisma.category.upsert({
+        where: { name: categoryData.name },
+        update: {},
+        create: categoryData
+      });
+      console.log(`✅ Category: ${categoryData.name}`);
     }
+  } catch (error) {
+    console.log('⚠️ Error creating categories:', error.message);
   }
 
   // Buat tags default
@@ -129,20 +143,20 @@ async function main() {
     'event', 'workshop', 'seminar', 'kompetisi'
   ];
 
-  for (const tagName of tags) {
-    const existingTag = await prisma.tag.findUnique({
-      where: { name: tagName }
-    });
-    
-    if (!existingTag) {
-      await prisma.tag.create({ data: { name: tagName } });
-      console.log(`Tag dibuat: ${tagName}`);
-    } else {
-      console.log(`Tag sudah ada: ${tagName}`);
+  try {
+    for (const tagName of tags) {
+      await prisma.tag.upsert({
+        where: { name: tagName },
+        update: {},
+        create: { name: tagName }
+      });
     }
+    console.log(`✅ ${tags.length} tags berhasil dibuat`);
+  } catch (error) {
+    console.log('⚠️ Error creating tags:', error.message);
   }
 
-  console.log('Seeding selesai.');
+  console.log('🎉 Seeding selesai.');
 }
 
 
