@@ -5,14 +5,20 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Booking } from "@/_services/booking.service"
 import { Badge } from "@/components/ui/badge"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { Button } from "@/components/ui/button" // Impor Button
-import { ArrowUpDown, User, Calendar, MapPin, Activity } from "lucide-react" // Impor ikon
+import { Button } from "@/components/ui/button"
+import { ArrowUpDown, User, Calendar, MapPin, Activity, Clock } from "lucide-react" // Impor ikon Clock
+
+// Fungsi helper untuk format waktu ke zona lokal (WIB)
+const formatToLocalTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
 
 export const columns: ColumnDef<Booking>[] = [
     {
-        // Ubah accessorKey agar sesuai dengan UI filter
         accessorKey: "user_name",
-        // Gabungkan data nama dari objek user
         accessorFn: row => row.user.name,
         header: ({ column }) => {
           return (
@@ -66,7 +72,6 @@ export const columns: ColumnDef<Booking>[] = [
     },
     {
         accessorKey: "bookingDate",
-        // Tambahkan header khusus untuk sorting
         header: ({ column }) => {
           return (
             <Button
@@ -103,6 +108,25 @@ export const columns: ColumnDef<Booking>[] = [
             );
         },
     },
+    // --- KOLOM BARU DITAMBAHKAN DI SINI ---
+    {
+        id: "time",
+        header: () => (
+          <div className="flex items-center text-slate-700 font-semibold">
+            <Clock className="mr-2 h-4 w-4" />
+            Waktu
+          </div>
+        ),
+        cell: ({ row }) => {
+            const { startTime, endTime } = row.original;
+            return (
+                <div className="font-medium text-slate-800">
+                    {formatToLocalTime(startTime)} - {formatToLocalTime(endTime)}
+                </div>
+            );
+        },
+    },
+    // ------------------------------------
     {
         accessorKey: "status",
         header: ({ column }) => {

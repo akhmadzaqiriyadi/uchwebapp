@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '8000',
         pathname: '/public/**',
       },
+      // {
+      //   protocol: 'http',
+      //   hostname: 'localhost',
+      //   port: '8000',
+      //   pathname: '/uploads/**',
+      // },
       {
         protocol: 'https',
         hostname: 'kreanovasi.uty.ac.id',

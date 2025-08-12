@@ -136,8 +136,8 @@ exports.getAvailableSlots = async (req, res) => {
     });
 
     const bookedRanges = bookedTimes.map((b) => ({
-      start: b.startTime.getUTCHours(),
-      end: b.endTime.getUTCHours(),
+      start: b.startTime.getHours(), // Ganti dari getUTCHours() menjadi getHours()
+      end: b.endTime.getHours(),   // Ganti dari getUTCHours() menjadi getHours()
     }));
 
     // Logika untuk menghitung interval yang tersedia

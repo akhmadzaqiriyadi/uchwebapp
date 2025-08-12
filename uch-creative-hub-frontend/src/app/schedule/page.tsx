@@ -35,12 +35,10 @@ export default function SchedulePage() {
   const rooms = ["Think Tank Room", "Coworking Space", "Prototyping Room"];
 
     const formatAsLocalTime = (dateString: string) => {
-    // 1. Buat objek Date dari string ISO
     const date = new Date(dateString);
-    // 2. Ambil komponen waktu UTC
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    // 3. Gabungkan menjadi format HH:mm
+    // FIX: Menggunakan getHours() dan getMinutes() untuk waktu lokal
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
 

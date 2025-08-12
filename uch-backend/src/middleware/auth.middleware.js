@@ -29,7 +29,7 @@ exports.protect = (req, res, next) => {
 // Middleware untuk memeriksa peran admin
 exports.isAdmin = (req, res, next) => {
   // Cek data user yang sudah di-decode oleh middleware 'protect'
-  if (req.user && req.user.role === 'ADMIN') {
+  if (req.user && req.user.role === 'ADMIN'|| req.user.role === 'AUTHOR') {
     next(); // Lanjutkan jika peran adalah ADMIN
   } else {
     res.status(403).json({ success: false, message: 'Akses ditolak. Rute ini hanya untuk Admin.' });

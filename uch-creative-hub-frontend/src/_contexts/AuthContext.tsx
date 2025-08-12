@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 // Definisikan tipe data lengkap untuk User
 export interface User {
   id: number;
-  role: "USER" | "ADMIN";
+  role: "USER" | "ADMIN" | "AUTHOR";
   name: string;
   email: string;
   npm: string;
