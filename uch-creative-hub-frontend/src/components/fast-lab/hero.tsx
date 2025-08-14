@@ -83,6 +83,21 @@ function WireframeModel() {
 }
 
 export default function Hero() {
+  // Fungsi untuk scroll ke bawah ke section berikutnya
+  const handleScrollDown = () => {
+    // Cari elemen section berikutnya setelah #home
+    const currentSection = document.getElementById('home');
+    if (currentSection) {
+      let next = currentSection.nextElementSibling;
+      // Jika next section tidak ditemukan, scroll 1 viewport ke bawah
+      if (next && next instanceof HTMLElement) {
+        next.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4">
       {/* 3D Background */}
@@ -108,7 +123,7 @@ export default function Hero() {
             Empowering creativity through digital fabrication
           </p>
           <p className="text-lg md:text-xl mb-12 text-gray-300 max-w-4xl mx-auto">
-            Bersama Kami, Mari Wujudkan Ide Kreatif Mahasiswa Menjadi Nyata
+            Bersama Kami, Mari Wujudkan Ide Kreatif Anda Menjadi Nyata
           </p>
         </motion.div>
 
@@ -118,10 +133,16 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <button className="bg-accent hover:bg-accent/80 text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors border-2 border-accent">
+          <button
+            className="bg-accent hover:bg-accent/80 text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors border-2 border-accent"
+            onClick={handleScrollDown}
+          >
             MULAI EKSPLORASI
           </button>
-          <button className="border-2 border-cyan-300 text-cyan-300 hover:bg-cyan-900 hover:text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors">
+          <button
+            className="border-2 border-cyan-300 text-cyan-300 hover:bg-cyan-900 hover:text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors"
+            onClick={handleScrollDown}
+          >
             PELAJARI LEBIH LANJUT
           </button>
         </motion.div>
