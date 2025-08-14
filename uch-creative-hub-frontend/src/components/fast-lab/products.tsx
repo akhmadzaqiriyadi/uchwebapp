@@ -9,37 +9,37 @@ const products = [
   {
     title: 'Custom 3D Printed Parts',
     price: 'Rp 50.000 - 500.000',
-    image: '/placeholder.svg?height=200&width=250&text=3D+Printed+Parts',
+    image: '/images/produk6.jpeg',
     description: 'Komponen custom hasil 3D printing dengan berbagai material'
   },
   {
     title: 'Laser Cut Acrylic Display',
     price: 'Rp 75.000 - 300.000',
-    image: '/placeholder.svg?height=200&width=250&text=Laser+Cut+Display',
+    image: '/images/produk1.png',
     description: 'Display acrylic custom dengan laser cutting precision'
   },
   {
     title: 'PCB Prototype Board',
     price: 'Rp 25.000 - 150.000',
-    image: '/placeholder.svg?height=200&width=250&text=PCB+Prototype',
+    image: '/images/produk5.jpeg',
     description: 'Prototype PCB untuk pengembangan elektronik'
   },
   {
     title: 'CNC Machined Parts',
     price: 'Rp 100.000 - 800.000',
-    image: '/placeholder.svg?height=200&width=250&text=CNC+Parts',
+    image: '/images/produk3.jpeg',
     description: 'Komponen presisi hasil CNC machining'
   },
   {
     title: 'Custom Mug Printing',
     price: 'Rp 35.000 - 75.000',
-    image: '/placeholder.svg?height=200&width=250&text=Custom+Mug',
+    image: '/images/produk4.jpeg',
     description: 'Mug custom dengan printing berkualitas tinggi'
   },
   {
     title: 'IoT Sensor Kit',
     price: 'Rp 200.000 - 500.000',
-    image: '/placeholder.svg?height=200&width=250&text=IoT+Sensor+Kit',
+    image: '/images/produk2.jpeg',
     description: 'Kit sensor IoT untuk project development'
   }
 ]

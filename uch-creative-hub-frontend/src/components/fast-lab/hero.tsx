@@ -121,7 +121,7 @@ export default function Hero() {
           <button className="bg-accent hover:bg-accent/80 text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors border-2 border-accent">
             MULAI EKSPLORASI
           </button>
-          <button className="border-2 border-cyan-300 text-cyan-300 hover:bg-cyan-300 hover:text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors">
+          <button className="border-2 border-cyan-300 text-cyan-300 hover:bg-cyan-900 hover:text-blueprint px-8 py-4 rounded-none font-mono font-bold transition-colors">
             PELAJARI LEBIH LANJUT
           </button>
         </motion.div>

@@ -8,37 +8,37 @@ const portfolioItems = [
   {
     title: 'Pelatihan 3D Printing',
     category: 'Training',
-    image: '/placeholder.svg?height=250&width=350&text=3D+Printing+Training',
+    image: '/images/porto2.jpeg',
     description: 'Workshop intensif 3D printing untuk mahasiswa dan umum'
   },
   {
     title: 'Prototype Smart Home',
     category: 'Prototyping',
-    image: '/placeholder.svg?height=250&width=350&text=Smart+Home+Prototype',
+    image: '/images/porto3.jpeg',
     description: 'Pengembangan prototipe sistem smart home berbasis IoT'
   },
   {
     title: 'Robotics Competition',
     category: 'Event',
-    image: '/placeholder.svg?height=250&width=350&text=Robotics+Competition',
+    image: '/images/portoo1.jpeg',
     description: 'Kompetisi robotika tingkat nasional'
   },
   {
     title: 'AR/VR Workshop',
     category: 'Training',
-    image: '/placeholder.svg?height=250&width=350&text=AR+VR+Workshop',
+    image: '/images/portoo2.jpeg',
     description: 'Pelatihan pengembangan aplikasi AR dan VR'
   },
   {
     title: 'Digital Fabrication',
     category: 'Prototyping',
-    image: '/placeholder.svg?height=250&width=350&text=Digital+Fabrication',
+    image: '/images/portoo3.jpeg',
     description: 'Proyek fabrikasi digital untuk industri kreatif'
   },
   {
     title: 'STEAM Education',
     category: 'Academy',
-    image: '/placeholder.svg?height=250&width=350&text=STEAM+Education',
+    image: '/images/portoo4.jpeg',
     description: 'Program pendidikan STEAM untuk generasi muda'
   }
 ]

@@ -116,6 +116,13 @@ export default function Navbar() {
               onClick={() => scrollToSection('#home')}
             >
               <Image
+                src="/UTY.png"
+                alt="UTY Logo"
+                width={44}
+                height={44}
+                className="object-contain bg-white rounded-full"
+              />
+              <Image
                 src="/fablab-logo.png"
                 alt="FASTLAB Logo"
                 width={42}

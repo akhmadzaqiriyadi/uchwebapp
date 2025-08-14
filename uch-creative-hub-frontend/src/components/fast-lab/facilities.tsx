@@ -10,37 +10,37 @@ const facilities = [
     icon: Brain,
     title: 'Think Tank Room',
     description: 'Ruang brainstorming dan diskusi untuk mengembangkan ide-ide inovatif',
-    image: '/placeholder.svg?height=200&width=300&text=Think+Tank+Room'
+    image: '/images/think-tank-room.jpg'
   },
   {
     icon: Wrench,
     title: 'Prototyping Room',
     description: 'Ruang lengkap dengan peralatan fabrikasi digital untuk membuat prototipe',
-    image: '/placeholder.svg?height=200&width=300&text=Prototyping+Room'
+    image: '/images/prototyping-room.jpg'
   },
   {
     icon: Users,
     title: 'Coworking Space',
     description: 'Area kerja bersama yang nyaman untuk kolaborasi tim',
-    image: '/placeholder.svg?height=200&width=300&text=Coworking+Space'
+    image: '/images/coworking-space.jpg'
   },
   {
     icon: Code,
     title: 'Software House Space',
     description: 'Ruang khusus untuk pengembangan software dan aplikasi',
-    image: '/placeholder.svg?height=200&width=300&text=Software+House'
+    image: '/images/room3.jpeg'
   },
   {
     icon: Video,
     title: 'Video Production Room',
     description: 'Studio produksi video dengan peralatan profesional',
-    image: '/placeholder.svg?height=200&width=300&text=Video+Production'
+    image: '/images/room2.jpeg'
   },
   {
     icon: Theater,
     title: 'Mini Theater Room',
     description: 'Ruang presentasi dan screening dengan fasilitas audio visual',
-    image: '/placeholder.svg?height=200&width=300&text=Mini+Theater'
+    image: '/images/room1.jpeg'
   }
 ]
 
