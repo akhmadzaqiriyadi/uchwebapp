@@ -107,14 +107,16 @@ exports.getAvailableSlots = async (req, res) => {
   try {
     const dayOfWeek = new Date(date).getDay(); // 0=Minggu, 1=Senin, ..., 6=Sabtu
 
+    // --- PERUBAHAN 1: Jam operasional sekarang dalam UTC ---
+    // Jam Buka WIB: 09:00 - 16:00 -> UTC: 02:00 - 09:00
+    // Jam Buka Sabtu WIB: 09:00 - 12:00 -> UTC: 02:00 - 05:00
     const operatingHours = {
-      // Minggu & Sabtu tutup
-      1: { start: 9, end: 16 }, // Senin
-      2: { start: 9, end: 16 }, // Selasa
-      3: { start: 9, end: 16 }, // Rabu
-      4: { start: 9, end: 16 }, // Kamis
-      5: { start: 9, end: 16 }, // Jumat
-      6: { start: 9, end: 12 }, // Sabtu
+      1: { start: 2, end: 9 }, // Senin (09:00 - 16:00 WIB)
+      2: { start: 2, end: 9 }, // Selasa
+      3: { start: 2, end: 9 }, // Rabu
+      4: { start: 2, end: 9 }, // Kamis
+      5: { start: 2, end: 9 }, // Jumat
+      6: { start: 2, end: 5 }, // Sabtu (09:00 - 12:00 WIB)
     };
 
     const hours = operatingHours[dayOfWeek];
@@ -135,12 +137,13 @@ exports.getAvailableSlots = async (req, res) => {
       select: { startTime: true, endTime: true },
     });
 
+    // --- PERUBAHAN 2: Gunakan getUTCHours() untuk konsistensi ---
     const bookedRanges = bookedTimes.map((b) => ({
-      start: b.startTime.getHours(), // Ganti dari getUTCHours() menjadi getHours()
-      end: b.endTime.getHours(),   // Ganti dari getUTCHours() menjadi getHours()
+      start: b.startTime.getUTCHours(),
+      end: b.endTime.getUTCHours(),
     }));
 
-    // Logika untuk menghitung interval yang tersedia
+    // Logika untuk menghitung interval yang tersedia (tetap sama)
     let currentStart = hours.start;
     const availableIntervals = [];
 

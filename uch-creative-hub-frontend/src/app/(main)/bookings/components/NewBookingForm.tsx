@@ -96,7 +96,6 @@ export function NewBookingForm() {
   const selectedDate = form.watch("date");
   const selectedStartTime = form.watch("startTime");
 
-  // Reset endTime setiap kali startTime berubah
   useEffect(() => {
     form.resetField("endTime");
   }, [selectedStartTime, form]);
@@ -113,36 +112,43 @@ export function NewBookingForm() {
     refetchOnWindowFocus: false,
   });
 
+  // --- PERUBAHAN UTAMA 1: Konversi jam UTC ke WIB ---
+  const WIB_OFFSET = 7;
+
   const timeSlots = useMemo(() => {
     if (!availableSlotsData?.data.availableIntervals) return [];
     const slots: string[] = [];
     availableSlotsData.data.availableIntervals.forEach((interval) => {
       for (let i = interval.start; i < interval.end; i++) {
-        slots.push(`${i}:00`.padStart(5, "0"));
+        // Tambahkan offset untuk mendapatkan jam WIB
+        const wibHour = i + WIB_OFFSET;
+        slots.push(`${wibHour}:00`.padStart(5, "0"));
       }
     });
     return [...new Set(slots)].sort();
   }, [availableSlotsData]);
 
-  // Buat daftar jam untuk endTime
   const endTimeSlots = useMemo(() => {
     if (!selectedStartTime) return [];
 
-    const lastPossibleTime = availableSlotsData?.data.availableIntervals.find(
-      (interval) => {
-        const startHour = parseInt(selectedStartTime.split(":")[0]);
-        return startHour >= interval.start && startHour < interval.end;
-      }
+    // Konversi jam mulai (WIB) yang dipilih kembali ke UTC untuk pencarian
+    const startHourUTC = parseInt(selectedStartTime.split(":")[0]) - WIB_OFFSET;
+
+    // Cari interval yang sesuai di data UTC dari API
+    const intervalForStartTime = availableSlotsData?.data.availableIntervals.find(
+      (interval) => startHourUTC >= interval.start && startHourUTC < interval.end
     );
 
-    if (!lastPossibleTime) return [];
+    if (!intervalForStartTime) return [];
 
-    const endHour = lastPossibleTime.end;
+    // Dapatkan jam terakhir yang memungkinkan dalam UTC, lalu konversi ke WIB
+    const endHourWIB = intervalForStartTime.end + WIB_OFFSET;
     const slots: string[] = [];
 
+    // Buat daftar jam selesai dalam format WIB
     for (
       let i = parseInt(selectedStartTime.split(":")[0]) + 1;
-      i <= endHour;
+      i <= endHourWIB;
       i++
     ) {
       slots.push(`${i}:00`.padStart(5, "0"));
@@ -299,37 +305,39 @@ export function NewBookingForm() {
                 </div>
                 Tanggal Booking
               </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full h-12 lg:h-14 justify-start text-left font-medium rounded-xl border-2",
-                      !form.watch("date") && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-3 h-4 w-4" />
-                    {form.watch("date") ? (
-                      format(form.watch("date"), "PPP", { locale: id })
-                    ) : (
-                      <span>Pilih tanggal booking</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={form.watch("date")}
-                    onSelect={(date) =>
-                      form.setValue("date", date as Date, {
-                        shouldValidate: true,
-                      })
-                    }
-                    initialFocus
-                    disabled={{ before: new Date(), dayOfWeek: [0] }}
-                  />
-                </PopoverContent>
-              </Popover>
+              <Controller
+                name="date"
+                control={form.control}
+                render={({ field }) => (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full h-12 lg:h-14 justify-start text-left font-medium rounded-xl border-2",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-3 h-4 w-4" />
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: id })
+                        ) : (
+                          <span>Pilih tanggal booking</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                        disabled={{ before: new Date(), dayOfWeek: [0] }}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
+              />
               {form.formState.errors.date && (
                 <p className="text-xs text-red-500">
                   {form.formState.errors.date.message}
